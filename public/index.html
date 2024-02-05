@@ -145,6 +145,16 @@
         </article>
       </div>
     </main>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"
+      integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"
+    ></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     <button class="randomize">randomize</button>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script>
@@ -184,8 +194,8 @@
       var color = d3.scale
         .ordinal()
         .domain([
-          "Lorem ipsum",
-          "dolor sit",
+          "Eat Out",
+          "Medical Insurance",
           "amet",
           "consectetur",
           "adipisicing",
@@ -206,17 +216,13 @@
           "#ff8c00",
         ]);
 
-      function randomData() {
-        var labels = color.domain();
-        return labels.map(function (label) {
-          return { label: label, value: Math.random() };
+      axios.get("/budget").then((res) => {
+        console.log(res);
+        var data = res.data.myBudget.map((obj) => {
+          return { label: obj.title, value: obj.budget };
         });
-      }
-
-      change(randomData());
-
-      d3.select(".randomize").on("click", function () {
-        change(randomData());
+        console.log(data);
+        change(data);
       });
 
       function change(data) {
